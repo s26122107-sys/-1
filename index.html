@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Dev Quest | 網頁作品集入口</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Orbitron & Noto Sans TC -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-pink: #ff007f;
+            --neon-cyan: #00f3ff;
+            --neon-purple: #9d00ff;
+            --neon-green: #39ff14;
+            --cyber-dark: #0a0a12;
+            --glass-bg: rgba(18, 18, 32, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--cyber-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(255, 0, 127, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(0, 243, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(157, 0, 255, 0.1) 0%, transparent 60%);
+            background-attachment: fixed;
+        }
+
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* 賽博龐克背景網格與掃描線 */
+        .cyber-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.3));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 99;
+            opacity: 0.6;
+        }
+
+        /* 毛玻璃卡片樣式 */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 解鎖卡片 Hover 特效 */
+        .glass-card-unlocked:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.4), inset 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .glass-card-unlocked::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 243, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: 0.6s;
+            opacity: 0;
+        }
+
+        .glass-card-unlocked:hover::before {
+            left: 100%;
+            opacity: 1;
+        }
+
+        /* 鎖定卡片樣式 */
+        .glass-card-locked {
+            background: rgba(15, 15, 22, 0.5);
+            border-color: rgba(255, 255, 255, 0.05);
+            cursor: not-allowed;
+            filter: grayscale(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card-locked:hover {
+            border-color: rgba(255, 0, 127, 0.4);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+            transform: translateY(-2px);
+            filter: grayscale(0.3);
+        }
+
+        /* Y2K 霓虹流光頭像邊框 */
+        .avatar-container {
+            position: relative;
+        }
+
+        .avatar-container::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 9999px;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-purple), var(--neon-green));
+            background-size: 400% 400%;
+            animation: neonGlow 6s ease infinite;
+            z-index: 0;
+            filter: blur(8px);
+        }
+
+        @keyframes neonGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glitch 文字特效 */
+        .glitch-text {
+            text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-cyan);
+            animation: glitch 3s infinite alternate-reverse;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-cyan); }
+            25% { text-shadow: -2px 1px var(--neon-pink), 2px -1px var(--neon-cyan); }
+            50% { text-shadow: 1px -2px var(--neon-pink), -1px 2px var(--neon-cyan); }
+            75% { text-shadow: -1px -1px var(--neon-pink), 1px 1px var(--neon-cyan); }
+            100% { text-shadow: 2px -1px var(--neon-pink), -2px 1px var(--neon-cyan); }
+        }
+
+        /* 鎖定彈窗搖晃動畫 */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        .shake-anim {
+            animation: shake 0.4s ease-in-out;
+        }
+    </style>
+</head>
+<body class="cyber-grid min-h-screen relative pb-16">
+    <!-- CRT 掃描線效果 -->
+    <div class="scanline"></div>
+
+    <!-- 主容器 -->
+    <main class="max-w-6xl mx-auto px-4 pt-12 sm:pt-16 relative z-10">
+        
+        <!-- 畫面中央：大頭貼與個人資訊區塊 -->
+        <header class="flex flex-col items-center text-center mb-12 sm:mb-16">
+            <!-- 頭像區 -->
+            <div class="avatar-container w-32 h-32 sm:w-40 sm:h-40 rounded-full mb-6">
+                <img 
+                    src="https://placehold.co/300x300/121220/00f3ff?text=Y2K+DEV&font=orbitron" 
+                    alt="大頭貼" 
+                    class="relative z-10 w-full h-full rounded-full object-cover border-2 border-cyan-400/50 p-1 bg-black"
+                    onerror="this.src='https://via.placeholder.com/150/09090e/00f3ff?text=DEV'"
+                >
+            </div>
+
+            <!-- 名字與稱號 -->
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-wider font-orbitron glitch-text mb-2 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500">
+                CYBER MASTER
+            </h1>
+            <p class="text-xs sm:text-sm font-orbitron text-cyan-300 tracking-widest uppercase mb-3 border-b border-cyan-500/30 pb-1">
+                // LEVEL 99 WEB DEVELOPER //
+            </p>
+            <p class="text-gray-400 text-sm max-w-md px-4">
+                歡迎來到我的網頁闖關地圖！完成每週任務以解鎖更多賽博網頁作品。
+            </p>
+            
+            <!-- 闖關進度條 -->
+            <div class="mt-6 w-full max-w-xs bg-gray-900/80 rounded-full h-3 border border-cyan-500/30 p-0.5 shadow-inner">
+                <div class="bg-gradient-to-r from-cyan-400 to-pink-500 h-full rounded-full w-[12.5%] shadow-[0_0_10px_#00f3ff]"></div>
+            </div>
+            <span class="text-xs font-orbitron text-gray-400 mt-2">QUEST PROGRESS: 2 / 16 CLEAR</span>
+        </header>
+
+        <!-- 下方 16 個按鈕關卡網格區 (Grid) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
+            
+            <!-- 關卡 1 (已解鎖) -->
+            <a href="w1/index.html" class="glass-card glass-card-unlocked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-cyan-400 bg-cyan-950/60 px-2.5 py-1 rounded border border-cyan-500/40">QUEST 01</span>
+                    <span class="text-xs font-orbitron text-emerald-400 flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> UNLOCKED
+                    </span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">Week 1 - 數位名片</h3>
+                    <p class="text-xs text-gray-400 mt-1">基礎 HTML/CSS 個人名片設計</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-end items-center text-cyan-400 font-orbitron text-xs font-bold group-hover:translate-x-1 transition-transform">
+                    START QUEST &rarr;
+                </div>
+            </a>
+
+            <!-- 關卡 2 (已解鎖) -->
+            <a href="w2/index.html" class="glass-card glass-card-unlocked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-pink-400 bg-pink-950/60 px-2.5 py-1 rounded border border-pink-500/40">QUEST 02</span>
+                    <span class="text-xs font-orbitron text-emerald-400 flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> UNLOCKED
+                    </span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-pink-300 transition-colors">Week 2 - 今天吃甚麼?</h3>
+                    <p class="text-xs text-gray-400 mt-1">互動式午餐選擇器小工具</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-end items-center text-pink-400 font-orbitron text-xs font-bold group-hover:translate-x-1 transition-transform">
+                    START QUEST &rarr;
+                </div>
+            </a>
+
+            <!-- 關卡 3 到 16 (未解鎖 14 個按鈕) -->
+            <!-- JavaScript 會動態建立或是直接在 HTML 呈現鎖定關卡 -->
+            <!-- 關卡 3 -->
+            <div onclick="triggerLockedAlert(3)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 03</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 3 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 4 -->
+            <div onclick="triggerLockedAlert(4)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 04</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 4 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 5 -->
+            <div onclick="triggerLockedAlert(5)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 05</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 5 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 6 -->
+            <div onclick="triggerLockedAlert(6)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 06</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 6 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 7 -->
+            <div onclick="triggerLockedAlert(7)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 07</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 7 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 8 -->
+            <div onclick="triggerLockedAlert(8)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 08</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 8 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 9 -->
+            <div onclick="triggerLockedAlert(9)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 09</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 9 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 10 -->
+            <div onclick="triggerLockedAlert(10)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 10</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 10 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 11 -->
+            <div onclick="triggerLockedAlert(11)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 11</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 11 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 12 -->
+            <div onclick="triggerLockedAlert(12)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 12</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 12 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 13 -->
+            <div onclick="triggerLockedAlert(13)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 13</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 13 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 14 -->
+            <div onclick="triggerLockedAlert(14)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 14</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 14 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 15 -->
+            <div onclick="triggerLockedAlert(15)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 15</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 15 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- 關卡 16 -->
+            <div onclick="triggerLockedAlert(16)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 16</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 16 - 期末大專案</h3>
+                    <p class="text-xs text-gray-600 mt-1">最終 BOSS 關卡，敬請期待</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>FINAL BOSS</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 頁尾宣告 -->
+        <footer class="text-center mt-16 text-xs text-gray-500 font-orbitron tracking-widest">
+            <p>© 2026 WEB PROGRAMMING COURSE // ALL RIGHTS RESERVED.</p>
+        </footer>
+    </main>
+
+    <!-- 酷炫未解鎖警示彈窗 Toast Modal -->
+    <div id="toast-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div id="toast-box" class="glass-card bg-gray-900/90 border-pink-500/50 p-6 sm:p-8 rounded-2xl max-w-sm w-full text-center relative shadow-[0_0_50px_rgba(255,0,127,0.3)]">
+            <div class="w-16 h-16 rounded-full bg-pink-950/80 border-2 border-pink-500 flex items-center justify-center mx-auto mb-4 text-2xl shadow-[0_0_15px_#ff007f]">
+                🔒
+            </div>
+            <h4 class="font-orbitron font-extrabold text-xl text-pink-500 tracking-wide mb-1">SYSTEM WARNING</h4>
+            <p class="text-lg font-bold text-white mb-2" id="toast-title">關卡 03 尚未解鎖！</p>
+            <p class="text-xs text-gray-400 mb-6">此任務尚未開放或在前置任務完成前無法存取，請敬請期待課程後續開放！</p>
+            <button onclick="closeModal()" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-pink-500 to-purple-600 text-white font-orbitron font-bold text-sm tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-[0_0_15px_rgba(255,0,127,0.4)]">
+                ACKNOWLEDGE
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 觸發鎖定關卡提示彈窗
+        function triggerLockedAlert(weekNum) {
+            const modal = document.getElementById('toast-modal');
+            const box = document.getElementById('toast-box');
+            const title = document.getElementById('toast-title');
+
+            title.innerText = `Week ${weekNum} 關卡尚未解鎖！`;
+            
+            // 顯示 Modal 並且套用搖晃效果
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            box.classList.add('shake-anim');
+
+            setTimeout(() => {
+                box.classList.remove('shake-anim');
+            }, 400);
+        }
+
+        // 關閉 Modal
+        function closeModal() {
+            const modal = document.getElementById('toast-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // 點擊背景空白處亦可關閉 modal
+        document.getElementById('toast-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
