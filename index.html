@@ -230,23 +230,22 @@
 
             <!-- 關卡 3 到 16 (未解鎖 14 個按鈕) -->
             <!-- JavaScript 會動態建立或是直接在 HTML 呈現鎖定關卡 -->
-            <!-- 關卡 3 (已解鎖) -->
-            <a href="w3/index.html" class="glass-card glass-card-unlocked rounded-xl p-5 flex flex-col justify-between group">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-orbitron font-bold text-purple-400 bg-purple-950/60 px-2.5 py-1 rounded border border-purple-500/40">QUEST 03</span>
-                    <span class="text-xs font-orbitron text-emerald-400 flex items-center gap-1">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> UNLOCKED
-                    </span>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-white group-hover:text-purple-300 transition-colors">Week 3 - 迷因產生器</h3>
-                    <p class="text-xs text-gray-400 mt-1">線上迷因圖片編輯與文字繪製工具</p>
-                </div>
-                <div class="mt-4 pt-3 border-t border-white/5 flex justify-end items-center text-purple-400 font-orbitron text-xs font-bold group-hover:translate-x-1 transition-transform">
-                    START QUEST &rarr;
-                </div>
-            </a>
-          
+            <!-- 關卡 3 -->
+            <div onclick="triggerLockedAlert(3)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-orbitron font-bold text-gray-500 bg-gray-900/60 px-2.5 py-1 rounded border border-gray-700/40">QUEST 03</span>
+                    <span class="text-xs font-orbitron text-gray-500 flex items-center gap-1">🔒 LOCKED</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors">Week 3 - 未解鎖關卡</h3>
+                    <p class="text-xs text-gray-600 mt-1">任務鎖定中，請完成前置關卡</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-gray-600 font-orbitron text-xs">
+                    <span>ACCESS DENIED</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
             <!-- 關卡 4 -->
             <div onclick="triggerLockedAlert(4)" class="glass-card glass-card-locked rounded-xl p-5 flex flex-col justify-between group">
                 <div class="flex items-center justify-between mb-3">
@@ -511,3 +510,4 @@
     </script>
 </body>
 </html>
+請幫我解鎖關卡3，關卡名稱為迷因產生器
